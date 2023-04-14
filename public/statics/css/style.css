@@ -1,0 +1,72 @@
+h1{
+    color: white;
+    font-size: 28px;
+    font-height: 28px;
+}
+h2{
+    color: white;
+    font-size: 20px;
+    font-height: 20px;
+}
+p{
+    color: white;
+    font-size: 20px;
+    font-height: 20px;
+}
+.white-title{
+    color: white !important;
+    font-size: 20px;
+}
+.white-subtitle{
+    color: rgb(181, 181, 181) !important;
+    font-size: 18px;
+    font-style: italic;
+}
+.white-content{
+    margin-top: 5%;
+    color: rgb(255, 255, 255) !important;
+    font-size: 16px;
+}
+.navbar{
+    background: transparent;
+}
+.navbar-brand{
+    margin-left: 10% !important;
+}
+.navbar-menu{
+    height: 50px; 
+    margin-right: 10% !important;
+}
+.greate-vibes{
+    font-family: 'Great Vibes'; 
+    color: white; 
+}
+.navbar-item{
+    color: white;
+    background-color: transparent !important;
+    position: relative;
+}
+.navbar-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background-color: transparent;
+    z-index: -1;
+    transition: all 0.2s ease-in-out;
+}
+.navbar-item:hover::after {
+    background-color: red;
+}
+a.navbar-item:hover {
+    color: white;
+}
+.grad{
+    background-image: linear-gradient(to right bottom, #dd1173, #b20e71, #861168, #5c115a, #350e47);
+}
+.section-card{
+    margin-left: 10% !important; 
+    margin-right: 10% !important; 
+}
