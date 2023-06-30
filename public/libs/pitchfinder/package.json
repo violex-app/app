@@ -1,0 +1,18 @@
+{
+  "name": "pitchfinder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify main.js -o bundle.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "browserify": "^17.0.0",
+    "piper-js": "^0.21.2",
+    "pitchfinder": "^2.3.2"
+  }
+}

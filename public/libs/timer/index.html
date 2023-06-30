@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Incremental Timer</title>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    }
+
+    button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button id="startBtn">Start Timer</button>
+  <button id="resetBtn">Reset Timer</button>
+  <p>Time elapsed: <span id="timer">0</span> ms</p>
+  
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const timerDisplay = document.getElementById('timer');
+    let timer;
+
+    let timeElapsed = 0;
+    let startTime = null;
+
+    function updateDisplay() {
+      timerDisplay.textContent = Math.round(timeElapsed);
+    }
+
+    function startTimer() {
+      startTime = performance.now() - timeElapsed;
+      timer = setInterval(() => {
+        timeElapsed = performance.now() - startTime;
+        updateDisplay();
+      }, 10);
+    }
+
+    function stopTimer() {
+      clearInterval(timer);
+    }
+
+    function resetTimer() {
+      stopTimer();
+      timeElapsed = 0;
+      startTime = null;
+      updateDisplay();
+      startBtn.textContent = 'Start Timer';
+    }
+
+    startBtn.addEventListener('click', () => {
+      if (startBtn.textContent === 'Start Timer') {
+        startTimer();
+        startBtn.textContent = 'Stop Timer';
+      } else {
+        stopTimer();
+        startBtn.textContent = 'Start Timer';
+      }
+    });
+
+    resetBtn.addEventListener('click', resetTimer);
+  </script>
+</body>
+</html>
