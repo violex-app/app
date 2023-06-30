@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sampleFilesList = document.querySelector('#sampleFiles');
     
     // Load sample files from a specific directory (e.g., './sample_files/')
-    const sampleFilesDirectory = 'alphaTab/scores/';
+    const sampleFilesDirectory = 'libs/alphaTab/scores/';
     const sampleFiles = [
         'bach_minuet-2AVLN.musicxml', 
         'Solo_Violin_Caprice_No._24_in_A_Minor_-_N._Paganini_Op._1_No._24.musicxml',
