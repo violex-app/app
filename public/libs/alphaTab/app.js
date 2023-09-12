@@ -237,10 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.querySelector('#fileInput');
     const browseFileButton = document.querySelector('#browseFile');
     const openFileButton = document.querySelector('#open-file');
+    const openSettingsButton = document.querySelector('#open-settings');
     const sampleFilesList = document.querySelector('#sampleFiles');
     
     // Load sample files from a specific directory (e.g., './sample_files/')
-    const sampleFilesDirectory = 'libs/alphaTab/scores/';
+    const sampleFilesDirectory = 'alphaTab/scores/';
     const sampleFiles = [
         'bach_minuet-2AVLN.musicxml', 
         'Solo_Violin_Caprice_No._24_in_A_Minor_-_N._Paganini_Op._1_No._24.musicxml',
@@ -266,6 +267,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Open the modal when the open file button is clicked
     openFileButton.addEventListener('click', () => {
       $('#fileModal').modal('show');
+    });
+
+    // Open the modal when the open file button is clicked
+    openSettingsButton.addEventListener('click', () => {
+        $('#settingsModal').modal('show');
     });
 
     // Open the file picker dialog when the browse file button is clicked

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pitch Detector</title>
+    <script src="main.js"></script>
+    <style>
+        body {
+            font-family: verdana, arial;
+            font-size: 14px;
+            margin: 20px;
+        }
+
+        #start_button {
+            font-size: 16px;
+            background-color: lightgreen;
+        }
+
+        div {
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <button id="start_button" onclick="toggle_start_stop()">Click to Start</button>
+    </div>
+
+    <div style="margin: 30px;">
+        <span id="note"></span>
+        <br/>
+        <span id="frequency"></span> Hhz
+        <br/>
+        <span id="cent"></span> Cents
+    </div>
+
+    <div>
+        <label>
+            <input type="radio" name="sharps_or_flats" value="sharps" onchange="set_sharps_or_flats(this.value)" checked>sharps</input>
+        </label>
+        <label>
+            <input type="radio" name="sharps_or_flats" value="flats" onchange="set_sharps_or_flats(this.value)">flats</input>
+        </label>
+        Accidentals
+    </div>
+
+    <div>
+        <input id="cents_threshold_input" onchange="restart()" value="12" type="number" min="2" max="40"></input>
+        Sensitivity - Smaller is less forgiving to out of tune notes (2 to 40)
+    </div>
+
+    <div>
+        <select id="transpose_octave_input" onchange="restart">
+            <option value="0">Don't transpose (violin, flute)</option>
+            <option value="1">Up 1 octave (viola, guitar)</option>
+            <option value="2">Up 2 octaves</option>
+            <option value="-1">Down 1 octave (whistling)</option>
+            <option value="-2">Down 2 octaves</option>
+        </select>
+        Transpose octave.
+    </div>
+
+
+    <div>
+        <input id="steady_factor_input" onchange="restart()" value="12" type="number" min="3" max="60"></input>
+        Steady factor - Bigger is maybe more accurate at pitch detection but slower to respond.
+        The app takes the most frequently occuring pitch from the last N samples (3 to 60)
+    </div>
+
+    <div>
+        <select id="fftsize_input" onchange="restart()">
+            <option value="2048">2048</option>
+            <option value="4096" selected>4096</option>
+            <option value="8192">8192</option>
+            <option value="16384">16384</option>
+            <option value="32768">32768</option>
+        </select>
+        fftSize - Bigger is more accurate but slower to respond. Fast Fourier Transform window size:
+    </div>
+
+</body>
+
+</html>
