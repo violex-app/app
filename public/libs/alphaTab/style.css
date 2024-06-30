@@ -230,6 +230,10 @@ body {
     background: rgba(255, 64, 64, 0);
 }
 
+.at-cursor-time {
+    background: rgba(0, 0, 0, 0.2);
+}
+
 .at-highlight * {
     /* Defines the color of the music symbols when they are being played (svg) */
     fill: #0078ff;

@@ -255,6 +255,7 @@
         let centElement = document.getElementById('cent');
         let timerElement = document.getElementById('timer');
         let noteCursor = document.querySelector('.at-cursor-note');
+        let timeCursor = document.querySelector('.at-cursor-time');
 
         function hide_live_feedbacks() {
             live_feedback_toggle()
@@ -265,10 +266,13 @@
                 centElement.innerText = "";
                 timerElement.innerText = "";
                 noteCursor.style.opacity = 0;
+
+                timeCursor.style.display = "none";
             }
         }
 
         function check_feedback(hearing_anything){
+            let time_cursor_hight = 100;
             if (hearing_anything) {
                 frequency_hearing = parseFloat(frequencyElement.innerText);
                 desired_accuracy = parseFloat(accuracyElement.value);
@@ -282,14 +286,23 @@
                 noteCursor.style.opacity = multiplier*0.9;
                 noteCursor.style.backgroundColor = "rgb(" + channel_red + ", " + channel_green + ", 150)";
                 noteCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y+deviation*staff_lines_distance/4) + "px)";  
+
+                timeCursor.style.display = "block";
                 
                 if(Math.abs(hearing_accuracy_in_cents) < desired_accuracy && !has_started_playing && !current_note_is_silence){
                     // started playing the note
                     startTimer();
+
+                    timeCursor.style.height = time_cursor_hight + "px";
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + "px)";  
+
                 }
                 if(Math.abs(hearing_accuracy_in_cents) > desired_accuracy && !current_note_is_silence){
                     // false note is played or got deviated
                     resetTimer();
+
+                    timeCursor.style.height = time_cursor_hight + "px";
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + "px)";  
                 }
                 if(playing_timer_timeElapsed >= playing_duration && has_started_playing && !current_note_is_silence){
                     // played the right note for correct duration
@@ -297,6 +310,9 @@
                     console.log("played");
                     api.onBeatMouseDown(null, next_beat_to_play);
                     api.onBeatMouseUp(null, next_beat_to_play);
+
+                    timeCursor.style.height = time_cursor_hight + "px";
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + "px)";  
                 }
                 
                 if(current_note_is_silence){
@@ -304,11 +320,21 @@
                     resetTimer();
                 }
 
+                if (playing_timer_timeElapsed <= playing_duration && has_started_playing && !current_note_is_silence){
+                    // the not is being played correctly
+                    timeCursor.style.height = (time_cursor_hight - (time_cursor_hight*(playing_timer_timeElapsed/playing_duration))) + 5 + "px";
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + (time_cursor_hight - (parseFloat(timeCursor.style.height.replace("px", ''))))/2 + "px)";  
+                }
+
+
             } else {
                 // no note is played
                 if(!current_note_is_silence){
                     // note should not be cut
                     resetTimer();
+
+                    timeCursor.style.height = time_cursor_hight + "px";
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + "px)";  
                 }
                 if(current_note_is_silence && !has_started_playing){
                     // start being silenced
@@ -317,9 +343,12 @@
                 if(playing_timer_timeElapsed >= playing_duration && current_note_is_silence){
                     // have been silenced for duration
                     resetTimer();
-                    console.log("played");
+                    console.log("silenced");
                     api.onBeatMouseDown(null, next_beat_to_play);
                     api.onBeatMouseUp(null, next_beat_to_play);
+
+                    timeCursor.style.height = time_cursor_hight + "px";
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + "px)";  
                 }
             }
         }
