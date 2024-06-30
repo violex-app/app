@@ -25143,6 +25143,22 @@
             const playing_notes = document.getElementById("playing-notes");
             var playing_notes_str = "";
             playing_duration = duration;
+
+            const toneToColor = {
+                0: "#520000",  // F
+                1: "#740000",  // F#
+                2: "#B30000",  // G
+                3: "#EE0000",  // G#
+                4: "#FF6300",  // A
+                5: "#FFEC00",  // A#
+                6: "#99FF00",  // B
+                7: "#28FF00",  // C
+                8: "00FFE8",  // C#
+                9: "#007CFF",  // D
+                10: "#0500FF", // D#
+                11: "#4500EA", // E
+              };
+
             if (beat.notes.length > 0){
                 current_note_is_silence = false;
                 beat.notes.forEach(note => {
@@ -25150,6 +25166,7 @@
                     "{" +
                     '"octave":' + String(note.octave) + ", " + 
                     '"tone":' + String(note.tone) + ", " + 
+                    '"color":' + '"' +  toneToColor[note.tone] + '"' + ", " + 
                     '"duration":' + String(duration) +
                     "}, ";
                 });
@@ -25162,6 +25179,7 @@
                     "[{" +
                     '"octave": -1, ' + 
                     '"tone": -1, ' + 
+                    '"color":' + '"#000000"' + ", " + 
                     '"duration":' + String(duration) +
                     "}]";
                 playing_notes.textContent = playing_notes_str;
@@ -27619,6 +27637,20 @@
             let container = document.querySelector('.at-cursors');
             container.insertBefore(noteCursor, container.children[0]);  
 
+            // Create a new note cursor
+            let timeCursor = document.createElement('div');
+            timeCursor.classList.add('at-cursor-time');
+            timeCursor.style.position = 'absolute';
+            timeCursor.style.width = '10px';
+            timeCursor.style.height = '100px';
+            timeCursor.style.display = "flex";
+            timeCursor.style.borderRadius = '5px';
+            timeCursor.style.left = "0px";
+            timeCursor.style.top = "0px";
+            timeCursor.style.display = "none";
+
+            container.insertBefore(timeCursor, container.children[0]);  
+
             return new Cursors(new HtmlElementContainer(cursorWrapper), barCursorContainer, beatCursorContainer, new HtmlElementContainer(selectionWrapper));
         }
         getOffset(scrollContainer, container) {
@@ -28277,7 +28309,8 @@
                 this.buffer += ` style="font-size: ${scale * 100}%; stroke:none"`;
             }
             else {
-                this.buffer += ' style="stroke:none"';
+                this.buffer += ' style="stroke:black; fill:red;"';
+                // note-color
             }
             if (this.color.rgba !== '#000000') {
                 this.buffer += ` fill="${this.color.rgba}"`;
