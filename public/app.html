@@ -55,6 +55,7 @@
                 <div class="modal-body">
                     <button class="button is-primary is-small" id="connectBtn">Connect</button>
                     <button class="button is-danger is-small" id="disconnectBtn" disabled>Disconnect</button>
+                    <button class="button is-small" onclick="showColorPallet()">Light it up</button>
 
                     <hr />
 
@@ -219,6 +220,7 @@
     <p id="playing-notes" style="font-family: monospace; visibility: hidden;">[]</p>
 
     <script>
+
         let frequency_target = undefined;
         let frequency_hearing = undefined;
         let accuracy_in_cents = 0;
