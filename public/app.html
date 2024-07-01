@@ -2,14 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" /> 
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1,user-scalable=no"
-    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
     <title>Violex</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css"/>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" />
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -23,90 +20,94 @@
 
 <body>
 
-    <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Select a music sheet</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Select a music sheet</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul id="sampleFiles" class="list-group">
+                        <!-- Sample files will be added here -->
+                    </ul>
+                    <hr>
+                    <input type="file" id="fileInput" style="display:none;">
+                    <button class="btn btn-primary" id="browseFile">Browse</button>
+                </div>
             </div>
-            <div class="modal-body">
-              <ul id="sampleFiles" class="list-group">
-                <!-- Sample files will be added here -->
-              </ul>
-              <hr>
-              <input type="file" id="fileInput" style="display:none;">
-              <button class="btn btn-primary" id="browseFile">Browse</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-      <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModal" aria-hidden="true">
+    <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModal"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Settings</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Settings</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <button class="button is-primary is-small" id="connectBtn">Connect</button>
+                    <button class="button is-danger is-small" id="disconnectBtn" disabled>Disconnect</button>
 
-                <input class="input is-small" type="text" id="ipAddress" placeholder="IP Address" style="width: 100px">
-                <input class="input is-small" type="text" id="port" placeholder="Port" style="width: 50px">
-                <button class="button is-primary is-small" id="connectBtn">Connect</button>
-                <button class="button is-danger is-small" id="disconnectBtn" disabled>Disconnect</button>  
+                    <hr />
 
-                <hr/>
-                <div>
-                    <label>
-                        <input type="radio" name="sharps_or_flats" value="sharps" onchange="set_sharps_or_flats(this.value)" checked>sharps</input>
-                    </label>
-                    <label>
-                        <input type="radio" name="sharps_or_flats" value="flats" onchange="set_sharps_or_flats(this.value)">flats</input>
-                    </label>
-                    Accidentals
-                </div>
-                <div>
-                    <input id="cents_threshold_input" onchange="restart()" value="12" type="number" min="2" max="40"></input>
-                    Sensitivity - Smaller is less forgiving to out of tune notes (2 to 40)
-                </div>
-                <div>
-                    <select id="transpose_octave_input" onchange="restart">
-                        <option value="0">Don't transpose (violin, flute)</option>
-                        <option value="1">Up 1 octave (viola, guitar)</option>
-                        <option value="2">Up 2 octaves</option>
-                        <option value="-1">Down 1 octave (whistling)</option>
-                        <option value="-2">Down 2 octaves</option>
-                    </select>
-                    Transpose octave.
-                </div>
-                <div>
-                    <input id="steady_factor_input" onchange="restart()" value="12" type="number" min="3" max="60"></input>
-                    Steady factor - Bigger is maybe more accurate at pitch detection but slower to respond.
-                    The app takes the most frequently occuring pitch from the last N samples (3 to 60)
-                </div>
-                <div>
-                    <select id="fftsize_input" onchange="restart()">
-                        <option value="2048">2048</option>
-                        <option value="4096" selected>4096</option>
-                        <option value="8192">8192</option>
-                        <option value="16384">16384</option>
-                        <option value="32768">32768</option>
-                    </select>
-                    fftSize - Bigger is more accurate but slower to respond. Fast Fourier Transform window size:
-                </div>
-                <div>
-                    <input id="accuracy" onchange="restart()" value="20" type="number" min="0" max="99"></input>
-                    Accuracy - in cents (0 to 99)
+                    <div>
+                        <label>
+                            <input type="radio" name="sharps_or_flats" value="sharps"
+                                onchange="set_sharps_or_flats(this.value)" checked>sharps</input>
+                        </label>
+                        <label>
+                            <input type="radio" name="sharps_or_flats" value="flats"
+                                onchange="set_sharps_or_flats(this.value)">flats</input>
+                        </label>
+                        Accidentals
+                    </div>
+                    <div>
+                        <input id="cents_threshold_input" onchange="restart()" value="12" type="number" min="2"
+                            max="40"></input>
+                        Sensitivity - Smaller is less forgiving to out of tune notes (2 to 40)
+                    </div>
+                    <div>
+                        <select id="transpose_octave_input" onchange="restart">
+                            <option value="0">Don't transpose (violin, flute)</option>
+                            <option value="1">Up 1 octave (viola, guitar)</option>
+                            <option value="2">Up 2 octaves</option>
+                            <option value="-1">Down 1 octave (whistling)</option>
+                            <option value="-2">Down 2 octaves</option>
+                        </select>
+                        Transpose octave.
+                    </div>
+                    <div>
+                        <input id="steady_factor_input" onchange="restart()" value="12" type="number" min="3"
+                            max="60"></input>
+                        Steady factor - Bigger is maybe more accurate at pitch detection but slower to respond.
+                        The app takes the most frequently occuring pitch from the last N samples (3 to 60)
+                    </div>
+                    <div>
+                        <select id="fftsize_input" onchange="restart()">
+                            <option value="2048">2048</option>
+                            <option value="4096" selected>4096</option>
+                            <option value="8192">8192</option>
+                            <option value="16384">16384</option>
+                            <option value="32768">32768</option>
+                        </select>
+                        fftSize - Bigger is more accurate but slower to respond. Fast Fourier Transform window size:
+                    </div>
+                    <div>
+                        <input id="accuracy" onchange="restart()" value="20" type="number" min="0" max="99"></input>
+                        Accuracy - in cents (0 to 99)
+                    </div>
                 </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
 
     <!--begin alphaTab-->
     <div class="at-wrap">
@@ -127,14 +128,14 @@
         </div>
         <div class="at-controls">
             <div class="at-controls-left">
-                
+
                 <a class="btn ml-2 fas fa-cog" title="Settings" id="open-settings"></a>
 
                 <a class="btn fas fa-folder-open" title="Open File" id="open-file">
                     <input type="file" id="fileInput" style="display:none;">
                 </a>
-                
-                
+
+
                 <a class="btn at-player-stop disabled">
                     <i class="fas fa-step-backward"></i>
                 </a>
@@ -159,13 +160,13 @@
                 </div>
                 <div class="at-song-position">00:00 / 00:00</div>
                 <div> | </div>
-                <input type="checkbox" id="live_feedback" onclick="hide_live_feedbacks()">  
+                <input type="checkbox" id="live_feedback" onclick="hide_live_feedbacks()">
                 <span>Live Feedback</span>
                 <text id="note" style="font-size: large; font-family: monospace; font-weight: bold;"></text>
                 <text id="frequency" style="font-size: large; font-family: monospace; font-weight: bold;"></text>
                 <text id="cent" style="font-family: monospace;"></text>
                 <text id="timer"></text>
-                
+
             </div>
             <div class="at-controls-right">
 
@@ -216,7 +217,7 @@
     </template>
     <!--end alphaTab-->
     <p id="playing-notes" style="font-family: monospace; visibility: hidden;">[]</p>
-    
+
     <script>
         let frequency_target = undefined;
         let frequency_hearing = undefined;
@@ -260,7 +261,7 @@
         function hide_live_feedbacks() {
             live_feedback_toggle()
 
-            if (checkBox.checked == false){
+            if (checkBox.checked == false) {
                 frequencyElement.innerText = "";
                 noteElement.innerText = "";
                 centElement.innerText = "";
@@ -271,40 +272,40 @@
             }
         }
 
-        function check_feedback(hearing_anything){
+        function check_feedback(hearing_anything) {
             let time_cursor_hight = 100;
             if (hearing_anything) {
                 frequency_hearing = parseFloat(frequencyElement.innerText);
                 desired_accuracy = parseFloat(accuracyElement.value);
-                hearing_accuracy_in_cents = 1200 * Math.log2(frequency_target/frequency_hearing);
-        
-                let deviation = (hearing_accuracy_in_cents/100);
-                let multiplier = 1-Math.abs(deviation)/12
-                let channel_red = 255 * (1-multiplier);
+                hearing_accuracy_in_cents = 1200 * Math.log2(frequency_target / frequency_hearing);
+
+                let deviation = (hearing_accuracy_in_cents / 100);
+                let multiplier = 1 - Math.abs(deviation) / 12
+                let channel_red = 255 * (1 - multiplier);
                 let channel_green = 200 * multiplier;
 
-                noteCursor.style.opacity = multiplier*0.9;
+                noteCursor.style.opacity = multiplier * 0.9;
                 noteCursor.style.backgroundColor = "rgb(" + channel_red + ", " + channel_green + ", 150)";
-                noteCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y+deviation*staff_lines_distance/4) + "px)";  
+                noteCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y + deviation * staff_lines_distance / 4) + "px)";
 
                 timeCursor.style.display = "block";
-                
-                if(Math.abs(hearing_accuracy_in_cents) < desired_accuracy && !has_started_playing && !current_note_is_silence){
+
+                if (Math.abs(hearing_accuracy_in_cents) < desired_accuracy && !has_started_playing && !current_note_is_silence) {
                     // started playing the note
                     startTimer();
 
                     timeCursor.style.height = time_cursor_hight + "px";
-                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + "px)";  
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight / 2 - 5)) + "px)";
 
                 }
-                if(Math.abs(hearing_accuracy_in_cents) > desired_accuracy && !current_note_is_silence){
+                if (Math.abs(hearing_accuracy_in_cents) > desired_accuracy && !current_note_is_silence) {
                     // false note is played or got deviated
                     resetTimer();
 
                     timeCursor.style.height = time_cursor_hight + "px";
-                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + "px)";  
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight / 2 - 5)) + "px)";
                 }
-                if(playing_timer_timeElapsed >= playing_duration && has_started_playing && !current_note_is_silence){
+                if (playing_timer_timeElapsed >= playing_duration && has_started_playing && !current_note_is_silence) {
                     // played the right note for correct duration
                     resetTimer();
                     console.log("played");
@@ -312,35 +313,35 @@
                     api.onBeatMouseUp(null, next_beat_to_play);
 
                     timeCursor.style.height = time_cursor_hight + "px";
-                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + "px)";  
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight / 2 - 5)) + "px)";
                 }
-                
-                if(current_note_is_silence){
+
+                if (current_note_is_silence) {
                     // a note is played but should be silenced
                     resetTimer();
                 }
 
-                if (playing_timer_timeElapsed <= playing_duration && has_started_playing && !current_note_is_silence){
+                if (playing_timer_timeElapsed <= playing_duration && has_started_playing && !current_note_is_silence) {
                     // the not is being played correctly
-                    timeCursor.style.height = (time_cursor_hight - (time_cursor_hight*(playing_timer_timeElapsed/playing_duration))) + 5 + "px";
-                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + (time_cursor_hight - (parseFloat(timeCursor.style.height.replace("px", ''))))/2 + "px)";  
+                    timeCursor.style.height = (time_cursor_hight - (time_cursor_hight * (playing_timer_timeElapsed / playing_duration))) + 5 + "px";
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight / 2 - 5)) + (time_cursor_hight - (parseFloat(timeCursor.style.height.replace("px", '')))) / 2 + "px)";
                 }
 
 
             } else {
                 // no note is played
-                if(!current_note_is_silence){
+                if (!current_note_is_silence) {
                     // note should not be cut
                     resetTimer();
 
                     timeCursor.style.height = time_cursor_hight + "px";
-                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + "px)";  
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight / 2 - 5)) + "px)";
                 }
-                if(current_note_is_silence && !has_started_playing){
+                if (current_note_is_silence && !has_started_playing) {
                     // start being silenced
                     startTimer();
                 }
-                if(playing_timer_timeElapsed >= playing_duration && current_note_is_silence){
+                if (playing_timer_timeElapsed >= playing_duration && current_note_is_silence) {
                     // have been silenced for duration
                     resetTimer();
                     console.log("silenced");
@@ -348,7 +349,7 @@
                     api.onBeatMouseUp(null, next_beat_to_play);
 
                     timeCursor.style.height = time_cursor_hight + "px";
-                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight/2 - 5)) + "px)";  
+                    timeCursor.style.transform = "translate(" + at_cursor_note_x + "px, " + (at_cursor_note_y - (time_cursor_hight / 2 - 5)) + "px)";
                 }
             }
         }
