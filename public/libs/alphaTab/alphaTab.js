@@ -21,6 +21,21 @@
 })(this, (function (exports) {
     'use strict';
 
+    const toneToColor = {
+        0: "#520000",  // F
+        1: "#740000",  // F#
+        2: "#B30000",  // G
+        3: "#EE0000",  // G#
+        4: "#FF6300",  // A
+        5: "#FFEC00",  // A#
+        6: "#99FF00",  // B
+        7: "#28FF00",  // C
+        8: "#00FFE8",  // C#
+        9: "#007CFF",  // D
+        10: "#0500FF", // D#
+        11: "#4500EA", // E
+      };
+
     /**
      * Lists all layout modes that are supported.
      */
@@ -24012,9 +24027,10 @@
             this._isGrace = isGrace;
             this._duration = duration;
         }
-        paint(cx, cy, canvas) {
+        paint(cx, cy, canvas, color) {
+            console.log("HERE:", color);
             let offset = this._isGrace ? this.scale : 0;
-            canvas.fillMusicFontSymbol(cx + this.x, cy + this.y + offset, this.glyphScale * this.scale, this.symbol, false);
+            canvas.fillMusicFontSymbol(cx + this.x, cy + this.y + offset, this.glyphScale * this.scale, this.symbol, false, color);
         }
         doLayout() {
             let scale = (this._isGrace ? NoteHeadGlyph.GraceScale : 1) * this.scale;
@@ -24242,6 +24258,14 @@
             //     canvas.color = new Color(200, 0, 0, 100);
             //     canvas.strokeRect(cx + this.x, cy + this.y + this.preNotes.y + 30, this.width, 10);
             // }
+
+            if (this.beat.notes.length > 0){
+                let tone = this.beat.notes[0].tone;
+                console.log("THERE:", tone);
+                let color = Color.fromJson(toneToColor[tone]);
+                canvas.color = new Color(color.r, color.g, color.b, 255);
+                // canvas.fillRect(cx + this.x, cy + this.y, this.width, this.renderer.height);
+            }
             this.preNotes.paint(cx + this.x, cy + this.y, canvas);
             // if (this.beat.voice.index === 0) {
             //     canvas.color = new Color(200, 0, 0, 100);
@@ -25143,21 +25167,6 @@
             const playing_notes = document.getElementById("playing-notes");
             var playing_notes_str = "";
             playing_duration = duration;
-
-            const toneToColor = {
-                0: "#520000",  // F
-                1: "#740000",  // F#
-                2: "#B30000",  // G
-                3: "#EE0000",  // G#
-                4: "#FF6300",  // A
-                5: "#FFEC00",  // A#
-                6: "#99FF00",  // B
-                7: "#28FF00",  // C
-                8: "00FFE8",  // C#
-                9: "#007CFF",  // D
-                10: "#0500FF", // D#
-                11: "#4500EA", // E
-              };
 
             if (beat.notes.length > 0){
                 current_note_is_silence = false;
@@ -28309,9 +28318,10 @@
                 this.buffer += ` style="font-size: ${scale * 100}%; stroke:none"`;
             }
             else {
-                this.buffer += ' style="stroke:black; fill:red;"';
                 // note-color
+                this.buffer += ' style="stroke: #666666;"';
             }
+
             if (this.color.rgba !== '#000000') {
                 this.buffer += ` fill="${this.color.rgba}"`;
             }
