@@ -1,7 +1,5 @@
 
 let socket;
-const ipAddressInput = document.getElementById('ipAddress');
-const portInput = document.getElementById('port');
 const connectBtn = document.getElementById('connectBtn');
 const disconnectBtn = document.getElementById('disconnectBtn');
 const sendBtn = document.getElementById('sendBtn');
@@ -9,7 +7,7 @@ const messageInput = document.getElementById('message');
 const log = document.getElementById('log');
 
 connectBtn.addEventListener('click', () => {
-    const ipAddress = `ws://${ipAddressInput.value}:${portInput.value}/ws`;
+    const ipAddress = `ws://violex.local:80/ws`;
 
     socket = new WebSocket(ipAddress);
 
@@ -43,8 +41,6 @@ function logMessage(message) {
 }
 
 function toggleConnectionState(connected) {
-    ipAddressInput.disabled = connected;
-    portInput.disabled = connected;
     connectBtn.disabled = connected;
     disconnectBtn.disabled = !connected;
     sendBtn.disabled = !connected;
