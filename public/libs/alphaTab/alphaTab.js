@@ -24028,7 +24028,7 @@
             this._duration = duration;
         }
         paint(cx, cy, canvas, color) {
-            console.log("HERE:", color);
+            // console.log("HERE:", color);
             let offset = this._isGrace ? this.scale : 0;
             canvas.fillMusicFontSymbol(cx + this.x, cy + this.y + offset, this.glyphScale * this.scale, this.symbol, false, color);
         }
@@ -24261,7 +24261,7 @@
 
             if (this.beat.notes.length > 0){
                 let tone = this.beat.notes[0].tone;
-                console.log("THERE:", tone);
+                // console.log("THERE:", tone);
                 let color = Color.fromJson(toneToColor[tone]);
                 canvas.color = new Color(color.r, color.g, color.b, 255);
                 // canvas.fillRect(cx + this.x, cy + this.y, this.width, this.renderer.height);
