@@ -8,7 +8,7 @@ var currentSpeed = 1.0;
 const settings = {
     // file: "https://www.alphatab.net/files/canon.gp",
     // file: "scores/bach_minuet-2AVLN.musicxml",
-    file: "libs/alphaTab/scores/Solo_Violin_Caprice_No._24_in_A_Minor_-_N._Paganini_Op._1_No._24.musicxml",
+    file: "libs/alphaTab/scores/Adagio_from_Concerto_in_D_minor_BWV_974_by_A._Marcello-J.S._Bach_for_Violin_and_Piano.musicxml",
     player: {
         enableElementHighlighting: true,
         enableAnimatedBeatCursor: false,
