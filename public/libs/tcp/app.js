@@ -4,21 +4,6 @@ const connectBtn = document.getElementById('connectBtn');
 const disconnectBtn = document.getElementById('disconnectBtn');
 const log = document.getElementById('log');
 
-const toneToColor = {
-    0: "#520000",  // F
-    1: "#740000",  // F#
-    2: "#B30000",  // G
-    3: "#EE0000",  // G#
-    4: "#FF6300",  // A
-    5: "#FFEC00",  // A#
-    6: "#99FF00",  // B
-    7: "#28FF00",  // C
-    8: "#00FFE8",  // C#
-    9: "#007CFF",  // D
-    10: "#0500FF", // D#
-    11: "#4500EA", // E
-  };
-
 connectBtn.addEventListener('click', () => {
     const ipAddress = `ws://violex.local:80/ws`;
 

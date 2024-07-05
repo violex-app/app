@@ -22,18 +22,18 @@
     'use strict';
 
     const toneToColor = {
-        0: "#520000",  // F
-        1: "#740000",  // F#
-        2: "#B30000",  // G
-        3: "#EE0000",  // G#
-        4: "#FF6300",  // A
-        5: "#FFEC00",  // A#
-        6: "#99FF00",  // B
-        7: "#28FF00",  // C
-        8: "#00FFE8",  // C#
-        9: "#007CFF",  // D
-        10: "#0500FF", // D#
-        11: "#4500EA", // E
+        0: "#FF0000",   // Red
+        1: "#FF5500",   // Deep Orange
+        2: "#FFD700",   // Gold
+        3: "#80FF00",   // Lime Green
+        4: "#00FF00",   // Green
+        5: "#00FF80",   // Turquoise Green
+        6: "#00FFFF",   // Cyan
+        7: "#0080FF",   // Deep Sky Blue
+        8: "#0000FF",   // Blue
+        9: "#8A2BE2",   // Blue Violet
+        10: "#FF00FF",  // Magenta
+        11: "#FF1493"   // Deep Pink (Distinct from Magenta)
       };
 
     /**
