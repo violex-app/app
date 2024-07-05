@@ -34,7 +34,22 @@
         9: "#8A2BE2",   // Blue Violet
         10: "#FF00FF",  // Magenta
         11: "#FF1493"   // Deep Pink (Distinct from Magenta)
-      };
+    };
+
+    const toneToSymbol = {
+        0: "C",
+        1: "C♯ D♭", 
+        2: "D",   
+        3: "D♯ E♭", 
+        4: "E",   
+        5: "F",  
+        6: "F♯ G♭",   
+        7: "G",  
+        8: "G♯ A♭",   
+        9: "A",  
+        10: "A♯ B♭",  
+        11: "B"
+    };
 
     /**
      * Lists all layout modes that are supported.
@@ -25186,12 +25201,15 @@
         internalCursorUpdateBeat(beat, nextBeat, duration, stop, beatsToHighlight, cache, beatBoundings, shouldScroll) {
             next_beat_to_play = nextBeat;
             const playing_notes = document.getElementById("playing-notes");
+            const playing_notes_symbol = document.getElementById("playing-notes-symbol");
             var playing_notes_str = "";
+            var playing_notes_symbol_str = "";
             playing_duration = duration;
 
             if (beat.notes.length > 0){
                 current_note_is_silence = false;
                 beat.notes.forEach(note => {
+                    playing_notes_symbol_str += (toneToSymbol[note.tone] + ' - ')
                     playing_notes_str += 
                     "{" +
                     '"octave":' + String(note.octave) + ", " + 
@@ -25201,7 +25219,9 @@
                     "}, ";
                 });
                 playing_notes_str = playing_notes_str.substring(0, playing_notes_str.length - 2);
-                playing_notes.textContent = "[" + playing_notes_str + "]"
+                playing_notes.textContent = "[" + playing_notes_str + "]";
+                playing_notes_symbol_str = playing_notes_symbol_str.substring(0, playing_notes_symbol_str.length - 3);
+                playing_notes_symbol.textContent = playing_notes_symbol_str;
             }
             else{
                 current_note_is_silence = true;
