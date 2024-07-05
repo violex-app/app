@@ -14,6 +14,7 @@ const settings = {
         enableAnimatedBeatCursor: false,
         enablePlayer: true,
         soundFont: "https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2",
+        // soundFont: "libs/alphaTab/soundfonts/Quartz.sf2",
         scrollElement: wrapper.querySelector('.at-viewport'),
         playbackRate: currentSpeed
     }
