@@ -13048,6 +13048,9 @@
                         case 'part':
                             this.parsePart(c);
                             break;
+                        case 'credit':
+                            this.parseCredit(c);
+                            break;
                     }
                 }
             }
@@ -14181,6 +14184,20 @@
                             }
                             this._score.copyright += c.innerText;
                             break;
+                    }
+                }
+            }
+        }
+        parseCredit(element) {
+            let is_subtitle = false;
+            for (let c of element.childNodes) {
+                if (c.nodeType === XmlNodeType.Element) {
+                    if (c.localName === "credit-type" && c.firstChild.value === 'subtitle'){
+                        is_subtitle = true;
+                        continue;
+                    }
+                    if (c.localName === "credit-words" && is_subtitle){
+                        this._score.subTitle = c.innerText;
                     }
                 }
             }
