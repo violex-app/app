@@ -1407,7 +1407,8 @@
                     case Fingers.NoOrDead:
                         return '0';
                     case Fingers.Thumb:
-                        return 'T';
+                        // return 'T';
+                        return '0';
                     case Fingers.IndexFinger:
                         return '1';
                     case Fingers.MiddleFinger:
@@ -13771,6 +13772,9 @@
                             break;
                         case 'up-bow':
                             note.beat.pickStroke = PickStroke.Up;
+                            break;
+                        case 'fingering':
+                            note.leftHandFinger = parseInt(c.innerText);
                             break;
                     }
                 }
