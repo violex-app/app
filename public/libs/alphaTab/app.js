@@ -245,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sampleFilesDirectory = 'libs/alphaTab/scores/';
     const sampleFiles = [
         'bach_minuet-2AVLN.musicxml', 
+        'Schubert_Serenade.musicxml',
         'Solo_Violin_Caprice_No._24_in_A_Minor_-_N._Paganini_Op._1_No._24.musicxml',
         'Adagio_from_Concerto_in_D_minor_BWV_974_by_A._Marcello-J.S._Bach_for_Violin_and_Piano.musicxml'
     ]; 
