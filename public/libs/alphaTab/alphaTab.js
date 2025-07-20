@@ -37,19 +37,34 @@
     };
 
     const toneToSymbol = {
-        0: "C",
-        1: "C♯ D♭", 
-        2: "D",   
-        3: "D♯ E♭", 
-        4: "E",   
-        5: "F",  
-        6: "F♯ G♭",   
-        7: "G",  
-        8: "G♯ A♭",   
-        9: "A",  
-        10: "A♯ B♭",  
-        11: "B"
+        0: "Do",
+        1: "Do♯/Re♭", 
+        2: "Re",   
+        3: "Re♯/Mi♭", 
+        4: "Mi",   
+        5: "Fa",  
+        6: "Fa♯/Sol♭",   
+        7: "Sol",  
+        8: "Sol♯La♭",   
+        9: "La",  
+        10: "La♯/Si♭",  
+        11: "Si"
     };
+
+    // const toneToSymbol = {
+    //     0: "C",
+    //     1: "C♯ D♭", 
+    //     2: "D",   
+    //     3: "D♯ E♭", 
+    //     4: "E",   
+    //     5: "F",  
+    //     6: "F♯ G♭",   
+    //     7: "G",  
+    //     8: "G♯ A♭",   
+    //     9: "A",  
+    //     10: "A♯ B♭",  
+    //     11: "B"
+    // };
 
     /**
      * Lists all layout modes that are supported.

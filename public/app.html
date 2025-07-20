@@ -144,7 +144,7 @@
                     <i class="fas fa-play"></i>
                 </a>
                 <div class="">
-                    <select id="speedSelect" onchange="changeSpeed()">
+                    <select id="speedSelect" style="min-width: 60px;" onchange="changeSpeed()">
                         <option value="0.25">0.25x</option>
                         <option value="0.5">0.5x</option>
                         <option value="0.75">0.75x</option>
@@ -163,13 +163,14 @@
                 <div> | </div>
                 <input type="checkbox" id="live_feedback" onclick="hide_live_feedbacks()">
                 <span>Live Feedback</span>
+                <span id="playing-notes-symbol"
+                    style="font-family: monospace; font-size: xx-large; font-weight: bolder; min-width: 200px;">
+                </span>
                 <text id="note" style="font-size: large; font-family: monospace; font-weight: bold;"></text>
                 <text id="frequency" style="font-size: large; font-family: monospace; font-weight: bold;"></text>
                 <text id="cent" style="font-family: monospace;"></text>
                 <text id="timer"></text>
 
-                <p id="playing-notes-symbol" style="font-family: monospace; font-size: xx-large; font-weight: bolder;">
-                </p>
                 <p id="playing-notes" style="font-family: monospace; visibility: hidden;">[]</p>
 
             </div>

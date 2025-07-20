@@ -213,12 +213,13 @@ body {
 
 .at-cursor-bar {
     /* Defines the color of the bar background when a bar is played */
-    background: rgba(195, 195, 195, 0.25);
+    background: rgba(195, 195, 195, 0.1);
+    border-radius: 10px;
 }
 
 .at-selection div {
     /* Defines the color of the selection background */
-    background: rgba(64, 64, 255, 0.1);
+    background: rgba(64, 64, 255, 0.05);
 }
 
 .at-cursor-beat {

@@ -13,8 +13,8 @@ const settings = {
         enableElementHighlighting: true,
         enableAnimatedBeatCursor: false,
         enablePlayer: true,
-        soundFont: "https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2",
-        // soundFont: "libs/alphaTab/soundfonts/Quartz.sf2",
+        // soundFont: "https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2",
+        soundFont: "libs/alphaTab/soundfonts/Quartz.sf2",
         scrollElement: wrapper.querySelector('.at-viewport'),
         playbackRate: currentSpeed
     }
@@ -101,7 +101,7 @@ api.renderStarted.on(() => {
 
 /** Controls **/
 api.scoreLoaded.on((score) => {
-    wrapper.querySelector(".at-song-title").innerText = score.title;
+    wrapper.querySelector(".at-song-title").innerText = ""; // score.title;
     wrapper.querySelector(".at-song-artist").innerText = score.artist;
 });
 
@@ -247,7 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'bach_minuet-2AVLN.musicxml', 
         'Schubert_Serenade.musicxml',
         'Solo_Violin_Caprice_No._24_in_A_Minor_-_N._Paganini_Op._1_No._24.musicxml',
-        'Adagio_from_Concerto_in_D_minor_BWV_974_by_A._Marcello-J.S._Bach_for_Violin_and_Piano.musicxml'
+        'Adagio_from_Concerto_in_D_minor_BWV_974_by_A._Marcello-J.S._Bach_for_Violin_and_Piano.musicxml',
+        '01-twinkle-twinkle-little-star.musicxml',
+        '02-lightly-row.musicxml'
     ]; 
 
     // Create list items for each sample file
