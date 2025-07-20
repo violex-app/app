@@ -6,14 +6,11 @@ var currentSpeed = 1.0;
 
 // initialize alphatab
 const settings = {
-    // file: "https://www.alphatab.net/files/canon.gp",
-    // file: "scores/bach_minuet-2AVLN.musicxml",
-    file: "libs/alphaTab/scores/Adagio_from_Concerto_in_D_minor_BWV_974_by_A._Marcello-J.S._Bach_for_Violin_and_Piano.musicxml",
+    file: "libs/alphaTab/Bach minuet 2AVLN.musicxml",
     player: {
         enableElementHighlighting: true,
         enableAnimatedBeatCursor: false,
         enablePlayer: true,
-        // soundFont: "https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2",
         soundFont: "libs/alphaTab/soundfonts/Quartz.sf2",
         scrollElement: wrapper.querySelector('.at-viewport'),
         playbackRate: currentSpeed
@@ -240,37 +237,89 @@ document.addEventListener('DOMContentLoaded', () => {
     const openFileButton = document.querySelector('#open-file');
     const openSettingsButton = document.querySelector('#open-settings');
     const sampleFilesList = document.querySelector('#sampleFiles');
-    
-    // Load sample files from a specific directory (e.g., './sample_files/')
-    const sampleFilesDirectory = 'libs/alphaTab/scores/';
-    const sampleFiles = [
-        'bach_minuet-2AVLN.musicxml', 
-        'Schubert_Serenade.musicxml',
-        'Solo_Violin_Caprice_No._24_in_A_Minor_-_N._Paganini_Op._1_No._24.musicxml',
-        'Adagio_from_Concerto_in_D_minor_BWV_974_by_A._Marcello-J.S._Bach_for_Violin_and_Piano.musicxml',
-        '01-twinkle-twinkle-little-star.musicxml',
-        '02-lightly-row.musicxml'
-    ]; 
+    const storage = firebase.storage();
 
-    // Create list items for each sample file
-    sampleFiles.forEach((fileName) => {
-      const listItem = document.createElement('li');
-      listItem.className = 'list-group-item';
-      listItem.textContent = fileName;
-      listItem.addEventListener('click', () => {
-        fetch(`${sampleFilesDirectory}${fileName}`)
-          .then(response => response.arrayBuffer())
-          .then(fileContent => {
-            api.load(fileContent);
-            $('#fileModal').modal('hide');
-          });
-      });
-      sampleFilesList.appendChild(listItem);
+    async function fetchFiles(path = 'scores/') {
+        const listRef = storage.ref(path);
+        const res = await listRef.listAll();
+        const files = [];
+        for (const itemRef of res.items) {
+            files.push({ name: itemRef.name, type: 'file', path: itemRef.fullPath });
+        }
+        for (const folderRef of res.prefixes) {
+            files.push({ name: folderRef.name, type: 'folder', path: folderRef.fullPath, children: await fetchFiles(folderRef.fullPath) });
+        }
+        return files;
+    }
+
+    function renderTree(nodes, element) {
+        element.innerHTML = '';
+        for (const node of nodes) {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item';
+            listItem.dataset.path = node.path;
+            listItem.dataset.type = node.type;
+
+            if (node.type === 'folder') {
+                listItem.innerHTML = `<i class="fas fa-folder"></i> ${node.name}`;
+                const childrenList = document.createElement('ul');
+                childrenList.className = 'list-group';
+                childrenList.style.display = 'none';
+                renderTree(node.children, childrenList);
+                listItem.appendChild(childrenList);
+            } else {
+                listItem.innerHTML = `<i class="fas fa-file-alt"></i> ${node.name}`;
+            }
+            element.appendChild(listItem);
+        }
+    }
+
+    sampleFilesList.addEventListener('click', async (e) => {
+        const listItem = e.target.closest('.list-group-item');
+        if (!listItem) return;
+
+        const type = listItem.dataset.type;
+        const path = listItem.dataset.path;
+
+        if (type === 'folder') {
+            const childrenList = listItem.querySelector('ul');
+            if (childrenList) {
+                childrenList.style.display = childrenList.style.display === 'none' ? 'block' : 'none';
+            }
+        } else if (type === 'file') {
+            const loading = document.getElementById('file-tree-loading');
+            loading.style.display = 'block';
+            sampleFilesList.style.display = 'none';
+            try {
+                const url = await storage.ref(path).getDownloadURL();
+                const response = await fetch(url);
+                const fileContent = await response.arrayBuffer();
+                api.load(fileContent);
+                $('#fileModal').modal('hide');
+            } catch (error) {
+                console.error("Error loading file:", error);
+            } finally {
+                loading.style.display = 'none';
+                sampleFilesList.style.display = 'block';
+            }
+        }
     });
 
     // Open the modal when the open file button is clicked
-    openFileButton.addEventListener('click', () => {
-      $('#fileModal').modal('show');
+    openFileButton.addEventListener('click', async () => {
+        const loading = document.getElementById('file-tree-loading');
+        loading.style.display = 'block';
+        sampleFilesList.style.display = 'none';
+        try {
+            const files = await fetchFiles();
+            renderTree(files, sampleFilesList);
+        } catch (error) {
+            console.error("Error fetching files:", error);
+        } finally {
+            loading.style.display = 'none';
+            sampleFilesList.style.display = 'block';
+        }
+        $('#fileModal').modal('show');
     });
 
     // Open the modal when the open file button is clicked
@@ -280,22 +329,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Open the file picker dialog when the browse file button is clicked
     browseFileButton.addEventListener('click', () => {
-  fileInput.click();
-  });
+        fileInput.click();
+    });
 
-  // Load the selected file in AlphaTab and close the modal
-  fileInput.addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-      const fileContent = e.target.result;
-      api.load(fileContent);
-      $('#fileModal').modal('hide');
-      };
-      reader.readAsArrayBuffer(file);
-
-        // createTrackControls(); 
-  }
-  });
+    // Load the selected file in AlphaTab and close the modal
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const fileContent = e.target.result;
+                api.load(fileContent);
+                $('#fileModal').modal('hide');
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    });
 });

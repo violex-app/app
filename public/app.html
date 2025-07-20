@@ -13,9 +13,18 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="libs/alphaTab/style.css">
+    <style>
+        #sampleFiles .list-group-item {
+            cursor: pointer;
+        }
+    </style>
     <script src="libs/alphaTab/fontawesome.js"></script>
     <script src="libs/alphaTab/alphaTab.js"></script>
     <script src="libs/timer/app.js"></script>
+    <!-- Firebase App (core) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <!-- Firebase Storage -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 </head>
 
 <body>
@@ -31,6 +40,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div id="file-tree-loading" style="display: none;">Loading...</div>
                     <ul id="sampleFiles" class="list-group">
                         <!-- Sample files will be added here -->
                     </ul>
@@ -211,6 +221,7 @@
             </div>
         </div>
     </div>
+
     <template id="at-track-template">
         <div class="at-track">
             <div class="at-track-icon">
@@ -221,8 +232,23 @@
             </div>
         </div>
     </template>
-    <!--end alphaTab-->
 
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAtx1NFIjrdivF7PcTA3tjb5aA_GqoZEhI",
+            authDomain: "violex-app.firebaseapp.com",
+            databaseURL: "https://violex-app-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "violex-app",
+            storageBucket: "violex-app.firebasestorage.app",
+            messagingSenderId: "1082464376576",
+            appId: "1:1082464376576:web:7d30df3c66357b411145e5",
+            measurementId: "G-NLFN459TDV"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <!--end alphaTab-->
     <script>
 
         let frequency_target = undefined;
